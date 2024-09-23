@@ -1,0 +1,41 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "generate-db": "drizzle-kit generate",
+    "migrate-db": "drizzle-kit migrate",
+    "update-db": "bun generate && bun migrate",
+    "studio-db": "drizzle-kit studio"
+  },
+  "devDependencies": {
+    "@iconify-json/fluent": "latest",
+    "@iconify-json/svg-spinners": "latest",
+    "@nuxt/content": "latest",
+    "@unocss/nuxt": "latest",
+    "@unocss/reset": "latest",
+    "@vaxee/nuxt": "latest",
+    "@vueuse/core": "latest",
+    "@vueuse/nuxt": "latest",
+    "@vueuse/router": "latest",
+    "clsx": "latest",
+    "ky": "latest",
+    "nuxt": "latest",
+    "stylus": "latest",
+    "tailwind-merge": "latest",
+    "ulidx": "latest",
+    "unocss": "latest",
+    "vue": "latest"
+  },
+  "dependencies": {
+    "@libsql/client": "latest",
+    "drizzle-kit": "latest",
+    "drizzle-orm": "latest",
+    "openai": "latest"
+  }
+}
