@@ -2,6 +2,7 @@
 import { useRouteQuery } from '@vueuse/router'
 const modal = useRouteQuery('modal')
 const opened = computed(() => modal.value === 'remove')
+const route = useRoute()
 const store = {
    chat: chatStore()
 }
@@ -39,6 +40,11 @@ const close = () => {
    dialog.value?.close()
    modal.value = null
 }
+
+const onRemove = async () => {
+   await removeConversation(route.params.id)
+   navigateTo('/')
+}
 </script>
 
 <template>
@@ -59,7 +65,7 @@ const close = () => {
                         type="button">
                         No
                      </button>
-                     <button @click="removeConversation($route.params.id)"
+                     <button @click="onRemove"
                         class="!outline-none px-4 py-2 ring-2 ring-inset ring-rose-5 text-rose-5  rounded-md hover:(text-light bg-rose-5) duration-300 ease-in-out"
                         type="button">
                         Yes

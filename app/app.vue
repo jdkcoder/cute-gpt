@@ -7,6 +7,7 @@ useHead({
     id: 'cute-gpt'
   }
 })
+
 </script>
 
 <template>

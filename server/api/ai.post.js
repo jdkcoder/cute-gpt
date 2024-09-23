@@ -1,30 +1,30 @@
 import { OpenAI } from "openai"
-import { eq } from "drizzle-orm";
-import db from "../db"
-import * as schema from '../db/schema'
 
 
 export default defineEventHandler(async (e) => {
    try {
-      const { model, conversation } = getQuery(e)
+      const { model } = getQuery(e)
       const body = await readBody(e)
       const openai = new OpenAI({
          apiKey: process.env.OPENAI_API_KEY
       });
 
       const chatHistory = []
-      if (conversation) {
-         const messages = await db.select().from(schema[ 'message' ]).where(eq(schema[ 'message' ][ 'conversation_id' ], conversation))
-         for (const message of messages) {
+      if (Array.isArray(body.history)) {
+         for (const message of body.history) {
             chatHistory.push({ role: message.role, content: message.content })
          }
       }
+
+      console.log(chatHistory)
       const completion = await openai.chat.completions.create({
          model,
-         messages: [ ...chatHistory, { role: 'user', content: body.prompt } ],
+         messages: [ ...chatHistory, { role: 'user', content: body.prompt + '. Please answer me briefly and to the point.' } ],
       })
 
-      return { data: completion.choices[ 0 ].message }
+      const data = completion.choices[ 0 ].message
+      console.log(data)
+      return { data }
    } catch (err) {
       return err
    }

@@ -2,10 +2,11 @@
 import { useRouteQuery } from '@vueuse/router'
 const modal = useRouteQuery('modal')
 const opened = computed(() => modal.value === 'history')
+const route = useRoute()
 const store = {
    chat: chatStore()
 }
-const { getHistory, history, removeConversation } = store.chat
+const { allConversations, removeConversation } = store.chat
 
 const dialog = shallowRef()
 const dialogBody = shallowRef()
@@ -13,10 +14,7 @@ watch(opened, (v) => {
    if (!v) {
       dialog.value?.close()
       modal.value = null
-   } else {
-      dialog.value?.showModal()
-      getHistory()
-   }
+   } else dialog.value?.showModal()
 })
 
 useEventListener(document, 'keyup', (e) => {
@@ -40,11 +38,13 @@ onMounted(() => {
       dialog.value?.close()
       modal.value = null
    }
-   else {
-      dialog?.value?.showModal()
-      getHistory()
-   }
+   else dialog?.value?.showModal()
 })
+
+const onRemove = (id) => {
+   removeConversation(id)
+   id === route.params.id && navigateTo('/')
+}
 </script>
 
 <template>
@@ -53,7 +53,7 @@ onMounted(() => {
          class="size-full bg-transparent p-0 m-0 max-w-screen max-h-screen grid place-items-center outline-0 rounded-md backdrop:(bg-dark-9/50 backdrop-blur-sm)">
          <div ref="dialogBody" class="relative rounded-lg z-1 bg-black p-6 rounded-md">
             <div class="grid grid-cols-2 gap-6 max-h-90dvh max-w-90vw mx-auto overflow-y-auto">
-               <template v-for="(conversation, i) in (history || [])" :key="conversation?.id || i">
+               <template v-for="(conversation, i) in (allConversations || [])" :key="conversation?.id || i">
                   <div
                      class="ring-2 ring-inset ring-transparent px-4 py-2 rounded-md bg-dark-4 hover:(bg-dark-2 ring-light) duration-300 ease-in-out">
                      <NuxtLink :to="`/chat/` + conversation.id" class="block outline-none">
@@ -66,7 +66,7 @@ onMounted(() => {
                         <time class="text-xs text-gray-4">
                            {{ useDateFormat(conversation?.created_at, 'DD/MM/YYYY hh:mm:ss').value }}
                         </time>
-                        <button @click.prevent="removeConversation(conversation.id)"
+                        <button @click.prevent="onRemove(conversation.id)"
                            class="grid place-items-center text-light hover:(text-rose-5)" type="button">
                            <i class="size-5 i-fluent:delete-32-filled" />
                         </button>

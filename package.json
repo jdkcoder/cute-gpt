@@ -34,8 +34,10 @@
   },
   "dependencies": {
     "@libsql/client": "latest",
+    "@vueuse/integrations": "^11.1.0",
     "drizzle-kit": "latest",
     "drizzle-orm": "latest",
+    "idb-keyval": "^6.2.1",
     "openai": "latest"
   }
 }
