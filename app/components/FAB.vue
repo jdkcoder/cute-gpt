@@ -19,16 +19,16 @@ const onClick = (modal) => {
             type="button">
             <i class="size-6 i-fluent:add-32-filled" />
          </button>
-         <button @click="onClick('history')" v-if="useCookie('user').value"
+         <button @click="onClick('history')" 
             class="p-2 grid place-items-center rounded-full shadow-md bg-black ring-1.5 ring-inset ring-orange-4 text-orange-4 hover:(bg-orange-4 text-light) focus:(bg-orange-4 text-light) duration-200 ease-in-out"
             type="button">
             <i class="size-6 i-fluent:history-32-regular" />
          </button>
-         <button @click="useCookie('user').value = null" v-if="useCookie('user').value"
+         <!-- <button @click="useCookie('user').value = null" 
             class="p-2 grid place-items-center rounded-full shadow-md bg-black ring-1.5 ring-inset ring-violet-4 text-violet-4 hover:(bg-violet-4 text-light) focus:(bg-violet-4 text-light) duration-200 ease-in-out"
             type="button">
             <i class="size-6 i-fluent:sign-out-24-regular" />
-         </button>
+         </button> -->
       </div>
    </div>
 </template>
